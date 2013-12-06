@@ -1,3 +1,28 @@
+N-Way Battleship, by RoR 007
+============================
+
+This is an adaption of the classic Battleship game. In the N-way Battleship game, you can create games with a minimum of 2 players and a maximum of 10 players.
+
+Have fun playing!
+
+Acknowledgments:
+----------------
+
+  * Our VPoE: John Krofcheck
+    * For the nice secret sauce
+    * All the support and advice
+    * It has been an honor working with you.
+
+  * Maria's friends in Panama
+    * For beta testing our game.
+
+  * Drench
+    * The creator of coordinate.js: the html table used in this game
+    * https://github.com/drench/coordinate.js/blob/master/coordinate.js
+
+
+
+
 == Welcome to Rails
      <a href='http://build.sv.cmu.edu:3000/projects/RoR-007'>Build Status</a> 
  

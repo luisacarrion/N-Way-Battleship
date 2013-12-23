@@ -212,7 +212,10 @@ class GamesController < ApplicationController
     gon.battlefield_attack_cell = @battlefield_cell.attributes
     gon.my_ships_attack_cell = @my_ships_cell.attributes
 
-    @other_players = Player.select("id,name").where("id <> ?", @current_player.id)
+    # Right now we are including the state of the player who made the move, so we are not
+    # filtering for other players. That's why it's commented
+    #@other_players = players.select { |player| player.id !=  @current_player.id}
+    @other_players = players
 
     respond_to do |format|
       format.json { render :json => {

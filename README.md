@@ -20,6 +20,9 @@ Acknowledgments:
     * The creator of coordinate.js: the html table used in this game
     * https://github.com/drench/coordinate.js/blob/master/coordinate.js
 
+Rails version: gem 'rails', '3.2.14'
+Ruby version: ruby '1.9.3'
+
 
 
 

@@ -212,14 +212,18 @@ class GamesController < ApplicationController
     gon.battlefield_attack_cell = @battlefield_cell.attributes
     gon.my_ships_attack_cell = @my_ships_cell.attributes
 
+    # Right now we are including the state of the player who made the move, so we are not
+    # filtering for other players. That's why it's commented
+    #@other_players = players.select { |player| player.id !=  @current_player.id}
+    @other_players = players
 
     respond_to do |format|
       format.json { render :json => {
           turn: @my_turn,
           player_in_turn: @player_in_turn,
           battlefield_cell: gon.battlefield_attack_cell,
-          my_ships_cell: gon.my_ships_attack_cell
-
+          my_ships_cell: gon.my_ships_attack_cell,
+          other_players: @other_players
         }
 }
       end

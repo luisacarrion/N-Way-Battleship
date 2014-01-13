@@ -28,7 +28,7 @@ game = {}
         dataType: 'script',
         data: {x: this.x, y: this.y, player_id: game.player_id},
         success: (data, textStatus, jqXHR) ->
-          display_battlefield_attacked_cell(data['battlefield_cell'])
+          display_battlefield_attacked_cell(data['battlefield_cell'],data['other_players'])
 
 
 
@@ -46,7 +46,7 @@ game = {}
     success: (data, textStatus, jqXHR) ->
       display_turn(data['turn'])
       display_player_in_turn(data['player_in_turn'])
-      display_battlefield_attacked_cell(data['battlefield_cell'])
+      display_battlefield_attacked_cell(data['battlefield_cell'],data['other_players'])
       display_ship_attacked_cell(data['my_ships_cell'])
 
 
@@ -54,35 +54,23 @@ display_turn = (turn) ->
   if (turn == true)
     document.getElementById("turn_info").innerHTML = "It's your turn to take a shot"
   else
-    document.getElementById("turn_info").innerHTML = ""
+    document.getElementById("turn_info").innerHTML = "&nbsp;"
 
 
 display_player_in_turn = (player_in_turn) ->
   if (player_in_turn.id != game.player_id)
     document.getElementById("player_in_turn_info").innerHTML = "Player moving: " + player_in_turn.name
   else
-    document.getElementById("player_in_turn_info").innerHTML = ""
+    document.getElementById("player_in_turn_info").innerHTML = "&nbsp;"
 
 display_battlefield_cell_status = (display,status) ->
   if (display == true)
     document.getElementById("cell_status").innerHTML = status
   else
-    document.getElementById("cell_status").innerHTML = "Cell Status"
+    document.getElementById("cell_status").innerHTML = "&nbsp;"
 
-display_battlefield_attacked_cell = (battlefield_cell) ->
+display_battlefield_attacked_cell = (battlefield_cell,other_players) ->
   table = document.getElementById('1')
-
-  state_with_names = ""
-  for id, status of battlefield_cell.state  # "of" for objects, "in" for arrays
-    if status == "m"
-      status = "miss"
-    if status == "h"
-      status = "hit"
-    if status == "u"
-      status = "unknown"
-    state_with_names += game.players[id] + ": " + status + " - "
-
-  state_with_names = state_with_names.substr(0, state_with_names.length - 2)
 
   state = JSON.stringify(battlefield_cell.state); #state = "{2:'u',3:'h', 4:'m'}"
   if(state.indexOf('h') != -1)
@@ -90,8 +78,25 @@ display_battlefield_attacked_cell = (battlefield_cell) ->
   else if(state.indexOf('m') != -1)
     table.coordinates[battlefield_cell.x][battlefield_cell.y].className = "cell_miss"
 
-  table.coordinates[battlefield_cell.x][battlefield_cell.y].onmouseover = () -> display_battlefield_cell_status(true,state_with_names)
-  table.coordinates[battlefield_cell.x][battlefield_cell.y].onmouseout = () -> display_battlefield_cell_status(false,state_with_names)
+  state = state.replace(/"/g,"")
+  state = state.replace(/:/g,"")
+  state = state.replace(/,/g," ")
+  state = state.replace(/{/,"<table>")
+  state = state.replace(/}/,"</table>")
+
+
+  state = state.replace(/h/g,"<td><div class =\"cell_hit\"></div></td></tr>")
+  state = state.replace(/m/g,"<td><div class =\"cell_miss\"></div></td></tr>")
+  state = state.replace(/u/g,"<td><div class =\"cell_unknown\"></div></td></tr>")
+
+  for player in other_players
+    id = player.id
+    name = player.name
+    state = state.replace(id, "<tr><td>" + name + "</td>" )
+
+
+  table.coordinates[battlefield_cell.x][battlefield_cell.y].onmouseover = () -> display_battlefield_cell_status(true,state)
+  table.coordinates[battlefield_cell.x][battlefield_cell.y].onmouseout = () -> display_battlefield_cell_status(false,state)
 
 display_ship_attacked_cell = (my_ships_cell) ->
   table = document.getElementById('2');

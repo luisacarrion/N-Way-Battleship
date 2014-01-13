@@ -28,16 +28,24 @@
 
 <h1>Play</h1>
 
-<div id="turn_info">
-
+<div id="turn_info" style="text-align: center">
+&nbsp;
 </div>
 
-<div id="player_in_turn_info">
-
+<div id="player_in_turn_info" style="text-align: center">
+&nbsp;
 </div>
 
+<table width="100%">
+<tr>
 
-<table id="1">
+  <td width="25%">
+    <div id="cell_status">
+    </div>
+  </td>
+
+  <td style="text-align:center;" >
+    <table id="1" style="margin:auto;">
 	<tr>
 		<td></td>
 		<td></td>
@@ -159,15 +167,26 @@
 		<td></td>
 	</tr>
 </table>
+  </td>
 
-<div id="cell_status">
-  Cell Status
-</div>
+  <td width="25%">
+  </td>
+
+</tr>
+</table>
 
 </br>
 
 
-<%= render 'playerships' %>
+<table width="100%">
+  <tr>
+    <td width="25%">
+    </td>
+    <td style="text-align:center;"> <%= render 'playerships' %> </td>
+    <td width="25%">
+    </td>
+  </tr>
+</table>
 
 
 
